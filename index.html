@@ -1,20 +1,26 @@
-<div class="container">
-  <h1>🎛️ ESP32 LED Controller</h1>
-  <!-- Status box -->
-  <div id="status" class="disconnected">
-    Status: Belum terhubung
+<!DOCTYPE html>
+<html>
+<head><title>ESP32 BLE</title></head>
+<body>
+  <div class="container">
+    <h1>🎛️ ESP32 LED Controller</h1>
+    <!-- Status box -->
+    <div id="status" class="disconnected">
+      Status: Belum terhubung
+    </div>
+  
+  <!-- Tombol ON / OFF -->
+    <button class="btn-on"
+      id="btnOn" disabled>🔴 ON
+    </button>
+    <button class="btn-off"
+      id="btnOff" disabled>⚫ OFF
+    </button>
+    <!-- Tombol koneksi BLE -->
+    <button class="btn-connect"
+      id="btnConnect">
+      🔌 Hubungkan ke ESP32
+    </button>
   </div>
-
-<!-- Tombol ON / OFF -->
-  <button class="btn-on"
-    id="btnOn" disabled>🔴 ON
-  </button>
-  <button class="btn-off"
-    id="btnOff" disabled>⚫ OFF
-  </button>
-  <!-- Tombol koneksi BLE -->
-  <button class="btn-connect"
-    id="btnConnect">
-    🔌 Hubungkan ke ESP32
-  </button>
-</div>
+</body>
+</html>
