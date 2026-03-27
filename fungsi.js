@@ -27,9 +27,9 @@ await rxCharacteristic
   .writeValue(encoder.encode("on"));
 // Konstanta UUID (Nordic UART)
 const SERVICE_UUID =
-  "6e400001-b5a3-f393-...";
+  "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
 const RX_UUID =
-  "6e400003-b5a3-f393-...";
+  "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
 
 // Kirim perintah ke ESP32
 async function sendCommand(cmd) {
