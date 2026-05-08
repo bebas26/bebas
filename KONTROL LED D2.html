@@ -1,0 +1,46 @@
+<div class="container">
+  <h1> ESP32 LED Controller</h1>
+
+  <!-- Status box -->
+  <button class="btn-on"
+    id="btnOn" disabled> ON 
+  </button>
+  <button class="btn-off"
+    id="btn-off"disabled> OFF
+  </button>
+
+  <!-- Tombol koneksi BLE -->
+  <button class="btn-connect"
+    id="btnConnect">
+      Hubungkan ke ESP32 
+  </button>
+</div>
+//Konstanta UUID (Nordic UART)
+const SERVICE_UUID = 
+  "77EB7594-4E18-41a0-83af-142732aa26f7";
+const RX_UUID = 
+  "77EB7594-4E18-41a0-83af-142732aa26f7";
+// Kirim perintah ke ESP32 
+async function sendCommand(cmd) {
+  const enc = new TextEncorder();
+  await rxCharacteristis
+    .writeValue(enc.encode(cmd));
+}
+
+// Tombol ON/OFF
+btnOn.onclick = ()=>sendCommand('on');
+btnOff.onclick = ()=>sendCommand('off');
+
+//Koneksi BLE
+async Function ConnectBLE() {
+  device = await navigator.bluetooth
+    .requestDevice({
+  filters : [{namePrefix:'ESP32'}],
+  optionalService :[SERVICE_UUID]
+    }];
+    const server = 
+      await device.gatt.connect();
+    const svc = await server
+  .getPrimaryService(SERVICE_UUID);
+    rxCharacteristic(RX_UUID);
+  connected = true; updateUI();
