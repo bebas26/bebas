@@ -6,7 +6,7 @@ const RX_UUID =
 // 1. Scan & pilih device bernama "ESP32..."
 device = await navigator.bluetooth
   .requestDevice({
-    filters: [{ namePrefix: 'ESP32' }],
+    filters: [{ namePrefix: 'ESP32_CIA_LED' }],
     optionalServices: [SERVICE_UUID]
   });
 
