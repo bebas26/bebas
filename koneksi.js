@@ -1,7 +1,7 @@
 const SERVICE_UUID =
-  "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+  "77EB7594-4E18-41a0-83af-142732aa26f7";
 const RX_UUID =
-  "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+  "77EB7594-4E18-41a0-83af-142732aa26f7";
 
 // 1. Scan & pilih device bernama "ESP32..."
 device = await navigator.bluetooth
