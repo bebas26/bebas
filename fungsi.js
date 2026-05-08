@@ -1,8 +1,8 @@
 const SERVICE_UUID =
-  "6E400001-B5A3-F393-E0A9-E50E24DCCA9E";
+  "77EB7594-4E18-41a0-83af-142732aa26f7";
 
 const RX_UUID =
-  "6E400002-B5A3-F393-E0A9-E50E24DCCA9E";
+  "77EB7594-4E18-41a0-83af-142732aa26f7";
 
 let device;
 let server;
@@ -24,7 +24,7 @@ async function connectBLE() {
     statusText.innerHTML = "Status: Menghubungkan...";
 
     device = await navigator.bluetooth.requestDevice({
-      filters: [{ namePrefix: "ESP32" }],
+      filters: [{ namePrefix: "ESP32_CIA_LED" }],
       optionalServices: [SERVICE_UUID]
     });
 
