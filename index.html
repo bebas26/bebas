@@ -1,47 +1,43 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>ESP32 BLE</title>
 
   <style>
-    body {
+
+    body{
       font-family: Arial;
       padding: 30px;
     }
 
-    button {
+    button{
       padding: 12px 20px;
       margin: 5px;
       font-size: 18px;
       cursor: pointer;
     }
 
-    #status {
-      margin-bottom: 20px;
+    #status{
       font-size: 22px;
-      font-weight: bold;
-    }
-
-    .connected {
-      color: green;
-    }
-
-    .disconnected {
+      margin-bottom: 20px;
       color: red;
     }
+
   </style>
 </head>
 
 <body>
 
-  <h1>🎛️ ESP32 LED Controller</h1>
+  <h1>🎛️ ESP32 BLE Controller</h1>
 
-  <div id="status" class="disconnected">
+  <div id="status">
     Status: Belum terhubung
   </div>
 
   <button id="btnConnect">
-    🔌 Hubungkan ke ESP32
+    🔌 Connect
   </button>
 
   <button id="btnOn" disabled>
@@ -52,7 +48,142 @@
     ⚫ OFF
   </button>
 
-  <script src="fungsi.js"></script>
+  <script>
+
+    // =========================
+    // UUID
+    // =========================
+    const SERVICE_UUID =
+      "77EB7594-4E18-41A0-83AF-142732AA26F0";
+
+    const RX_UUID =
+      "77EB7594-4E18-41A0-83AF-142732AA26F2";
+
+    // =========================
+    // VARIABLE
+    // =========================
+    let device;
+    let server;
+    let service;
+    let rxCharacteristic;
+
+    // =========================
+    // ELEMENT
+    // =========================
+    const btnConnect =
+      document.getElementById("btnConnect");
+
+    const btnOn =
+      document.getElementById("btnOn");
+
+    const btnOff =
+      document.getElementById("btnOff");
+
+    const statusText =
+      document.getElementById("status");
+
+    // =========================
+    // CONNECT BLE
+    // =========================
+    async function connectBLE(){
+
+      try{
+
+        statusText.innerHTML =
+          "Status: Menghubungkan...";
+
+        device =
+          await navigator.bluetooth.requestDevice({
+
+            filters: [
+              { namePrefix: "ESP32" }
+            ],
+
+            optionalServices: [
+              SERVICE_UUID
+            ]
+          });
+
+        server =
+          await device.gatt.connect();
+
+        service =
+          await server.getPrimaryService(
+            SERVICE_UUID
+          );
+
+        rxCharacteristic =
+          await service.getCharacteristic(
+            RX_UUID
+          );
+
+        statusText.innerHTML =
+          "Status: Terhubung ✅";
+
+        statusText.style.color = "green";
+
+        btnOn.disabled = false;
+        btnOff.disabled = false;
+
+        console.log("BLE CONNECTED");
+
+      }
+      catch(error){
+
+        console.log(error);
+
+        statusText.innerHTML =
+          "Status: Gagal connect ❌";
+
+        statusText.style.color = "red";
+      }
+    }
+
+    // =========================
+    // SEND COMMAND
+    // =========================
+    async function sendCommand(command){
+
+      if(!rxCharacteristic){
+
+        alert("Belum connect");
+
+        return;
+      }
+
+      const encoder =
+        new TextEncoder();
+
+      await rxCharacteristic.writeValue(
+        encoder.encode(command)
+      );
+
+      console.log(
+        "Kirim:",
+        command
+      );
+    }
+
+    // =========================
+    // BUTTON EVENT
+    // =========================
+    btnConnect.addEventListener(
+      "click",
+      connectBLE
+    );
+
+    btnOn.addEventListener(
+      "click",
+      () => sendCommand("on")
+    );
+
+    btnOff.addEventListener(
+      "click",
+      () => sendCommand("off")
+    );
+
+  </script>
 
 </body>
 </html>
+
