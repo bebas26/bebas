@@ -5,7 +5,7 @@ const RX_UUID =
 // 1. Scan & pilih device bernama "ESP32_CIA"
 device = await navigator.bluetooth
   .requestDevice({
-    filters:[{ namePrefix: 'ESP32'}],
+    filters:[{ namePrefix: 'ESP32_CIA'}],
     optionalServices:[SERVICE_UUID]
   });
 // 2. Koneksi ke GATT server 
