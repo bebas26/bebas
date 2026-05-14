@@ -45,6 +45,7 @@
             border: none;
             border-radius: 5px;
             transition: 0.3s;
+            color: white;
         }
 
         button:active {
@@ -53,8 +54,14 @@
 
         .btn-connect {
             background: #2196F3;
-            color: white;
-            margin-top: 20px;
+        }
+
+        .btn-on {
+            background: #4CAF50;
+        }
+
+        .btn-off {
+            background: #f44336;
         }
 
         button:disabled {
@@ -97,6 +104,17 @@
             Status: Belum terhubung
         </div>
 
+        <!-- tombol ON OFF -->
+        <button class="btn-on" id="btnOn" disabled>
+            🟢 ON
+        </button>
+
+        <button class="btn-off" id="btnOff" disabled>
+            🔴 OFF
+        </button>
+
+        <br>
+
         <button class="btn-connect" id="btnConnect">
             🔌 Hubungkan ke ESP32
         </button>
@@ -118,6 +136,9 @@
         let pollingInterval = null;
 
         const btnConnect = document.getElementById('btnConnect');
+        const btnOn = document.getElementById('btnOn');
+        const btnOff = document.getElementById('btnOff');
+
         const statusDiv = document.getElementById('status');
 
         function updateUI() {
@@ -132,6 +153,9 @@
                 btnConnect.textContent =
                     '🔌 Putuskan Koneksi';
 
+                btnOn.disabled = false;
+                btnOff.disabled = false;
+
             } else {
 
                 statusDiv.textContent =
@@ -141,8 +165,49 @@
 
                 btnConnect.textContent =
                     '🔌 Hubungkan ke ESP32';
+
+                btnOn.disabled = true;
+                btnOff.disabled = true;
             }
         }
+
+        // =========================
+        // KIRIM COMMAND
+        // =========================
+
+        async function sendCommand(command) {
+
+            if (!rxCharacteristic || !connected) {
+
+                alert("Belum terhubung ke ESP32!");
+                return;
+            }
+
+            try {
+
+                const encoder = new TextEncoder();
+
+                await rxCharacteristic.writeValue(
+                    encoder.encode(command)
+                );
+
+                console.log("Kirim:", command);
+
+            } catch (error) {
+
+                console.error(error);
+            }
+        }
+
+        // tombol ON
+        btnOn.onclick = () => {
+            sendCommand("on");
+        };
+
+        // tombol OFF
+        btnOff.onclick = () => {
+            sendCommand("off");
+        };
 
         // =========================
         // CONNECT BLE
@@ -150,10 +215,11 @@
 
         btnConnect.onclick = async () => {
 
-            // Disconnect
+            // disconnect
             if (connected && device) {
 
                 if (pollingInterval) {
+
                     clearInterval(pollingInterval);
                     pollingInterval = null;
                 }
@@ -177,7 +243,7 @@
                 return;
             }
 
-            // Connect baru
+            // koneksi baru
             try {
 
                 device =
@@ -278,7 +344,7 @@
             }
         };
 
-        // cek support browser
+        // cek browser
         if (!navigator.bluetooth) {
 
             alert(
