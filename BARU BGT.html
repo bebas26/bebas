@@ -141,6 +141,10 @@
 
         const statusDiv = document.getElementById('status');
 
+        // =========================
+        // UPDATE UI
+        // =========================
+
         function updateUI() {
 
             if (connected) {
@@ -153,6 +157,7 @@
                 btnConnect.textContent =
                     '🔌 Putuskan Koneksi';
 
+                // tombol aktif
                 btnOn.disabled = false;
                 btnOff.disabled = false;
 
@@ -166,6 +171,7 @@
                 btnConnect.textContent =
                     '🔌 Hubungkan ke ESP32';
 
+                // tombol disable
                 btnOn.disabled = true;
                 btnOff.disabled = true;
             }
@@ -199,13 +205,17 @@
             }
         }
 
-        // tombol ON
+        // =========================
+        // TOMBOL ON OFF
+        // =========================
+
         btnOn.onclick = () => {
+
             sendCommand("on");
         };
 
-        // tombol OFF
         btnOff.onclick = () => {
+
             sendCommand("off");
         };
 
